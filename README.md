@@ -67,4 +67,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgments
 
 - Thanks to all contributors
-- Inspired by the need for efficient cross-tab searching 
+- Inspired by the need for efficient cross-tab searching # tabsearchcontent
