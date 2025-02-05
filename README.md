@@ -22,7 +22,7 @@ A powerful Chrome extension that allows you to search for text across all your o
 ### For Development
 1. Clone this repository:
 ```bash
-git clone https://github.com/yourusername/tab-content-search.git
+git clone https://github.com/lmzid/tabsearchcontent.git
 ```
 2. Open Chrome and navigate to `chrome://extensions/`
 3. Enable "Developer mode" in the top right corner
@@ -90,7 +90,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Support
 
 If you encounter any issues or have suggestions, please:
-1. Check the [Issues](https://github.com/yourusername/tab-content-search/issues) page
+1. Check the [Issues](https://github.com/lmzid/tabsearchcontent/issues) page
 2. Create a new issue if your problem isn't already listed
 
 ## Acknowledgments
