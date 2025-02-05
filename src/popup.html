@@ -5,30 +5,32 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Tab Content Search</h1>
-  
-  <div class="search-container">
-    <input type="text" id="searchInput" placeholder="Enter keyword to search across all tabs...">
-    <img src="../assets/search_icon.png" alt="Search" id="searchIcon">
-  </div>
+  <div class="container">
+    <h1>Tab Content Search</h1>
+    
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Enter keyword to search across all tabs...">
+      <img src="../assets/search_icon.png" alt="Search" id="searchIcon">
+    </div>
 
-  <div class="search-options">
-    <label>
-      <input type="checkbox" id="caseSensitive">
-      Case sensitive
-    </label>
-    <label>
-      <input type="checkbox" id="useRegex">
-      Use regex
-    </label>
-  </div>
+    <div class="search-options">
+      <label>
+        <input type="checkbox" id="caseSensitive">
+        Case sensitive
+      </label>
+      <label>
+        <input type="checkbox" id="useRegex">
+        Use regex
+      </label>
+    </div>
 
-  <div id="loading" class="loading" style="display: none;">
-    <div class="loading-spinner"></div>
-    <p>Searching tabs...</p>
-  </div>
+    <div id="loading" class="loading" style="display: none;">
+      <div class="loading-spinner"></div>
+      <p>Searching tabs...</p>
+    </div>
 
-  <div id="results"></div>
+    <div id="results" style="display: none;"></div>
+  </div>
 
   <script src="popup.js"></script>
 </body>

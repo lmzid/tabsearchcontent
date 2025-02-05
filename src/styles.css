@@ -1,26 +1,38 @@
 body {
-  width: 800px;
-  min-height: 400px;
-  padding: 20px;
+  margin: 0;
   font-family: Arial, sans-serif;
+  background-color: white;
+}
+
+.container {
+  width: 400px;
+  min-width: 300px;
+  max-width: 800px;
+  padding: 15px;
+  box-sizing: border-box;
+  resize: both;
+  overflow: auto;
+  min-height: fit-content;
+  background-color: inherit;
 }
 
 h1 {
   color: #333;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+  font-size: 18px;
 }
 
 .search-container {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 8px;
+  margin-bottom: 15px;
 }
 
 #searchInput {
   flex: 1;
-  height: 36px;
-  padding: 0 10px;
+  height: 32px;
+  padding: 0 8px;
   font-size: 14px;
   border: 2px solid #ddd;
   border-radius: 4px;
@@ -33,39 +45,60 @@ h1 {
 }
 
 #searchIcon {
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   cursor: pointer;
   transition: transform 0.2s;
+  padding: 4px;
 }
 
 #searchIcon:hover {
   transform: scale(1.1);
 }
 
+.search-options {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.search-options label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
 #results {
-  max-height: 500px;
+  max-height: 400px;
+  min-height: 100px;
+  max-height: 600px;
   overflow-y: auto;
-  padding: 10px;
+  padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
+  font-size: 13px;
+  background: white;
+  margin-top: 10px;
 }
 
 .tab-result {
-  margin-bottom: 20px;
-  padding: 10px;
+  margin-bottom: 15px;
+  padding: 8px;
   background: #f5f5f5;
   border-radius: 4px;
 }
 
 .tab-result h3 {
-  margin: 0 0 10px 0;
+  margin: 0 0 8px 0;
   color: #1a73e8;
+  font-size: 14px;
 }
 
 .tab-result a {
   color: #1a73e8;
   text-decoration: none;
+  word-break: break-all;
 }
 
 .tab-result a:hover {
@@ -73,28 +106,30 @@ h1 {
 }
 
 .result-line {
-  margin: 5px 0;
-  padding: 5px;
+  margin: 4px 0;
+  padding: 4px;
   background: white;
   border-radius: 2px;
+  line-height: 1.4;
 }
 
 .line-number {
   color: #666;
-  margin-right: 10px;
+  margin-right: 8px;
+  font-size: 12px;
 }
 
 .loading {
   text-align: center;
-  padding: 20px;
+  padding: 15px;
 }
 
 .loading-spinner {
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #3498db;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #3498db;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 24px;
+  height: 24px;
   animation: spin 1s linear infinite;
   margin: 0 auto;
 }
@@ -108,6 +143,9 @@ h1 {
 @media (prefers-color-scheme: dark) {
   body {
     background-color: #202124;
+  }
+
+  .container {
     color: #e8eaed;
   }
 
@@ -127,6 +165,7 @@ h1 {
 
   #results {
     border-color: #5f6368;
+    background: #202124;
   }
 
   .tab-result {
@@ -147,5 +186,19 @@ h1 {
 
   .line-number {
     color: #9aa0a6;
+  }
+}
+
+/* 自定义调整大小手柄的样式 */
+.container::-webkit-resizer {
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent #ccc #ccc transparent;
+  background: transparent;
+}
+
+@media (prefers-color-scheme: dark) {
+  .container::-webkit-resizer {
+    border-color: transparent #5f6368 #5f6368 transparent;
   }
 } 

@@ -49,6 +49,12 @@ class TabSearcher {
     this.resultsDiv = document.getElementById('results');
     this.caseSensitiveCheckbox = document.getElementById('caseSensitive');
     this.useRegexCheckbox = document.getElementById('useRegex');
+    this.isDetached = false;
+    
+    // 检查是否已经是独立窗口
+    if (window.opener) {
+      this.isDetached = true;
+    }
   }
 
   // 将通配符转换为正则表达式
@@ -73,16 +79,46 @@ class TabSearcher {
     tabResult.className = 'tab-result';
 
     const tabInfo = document.createElement('h3');
-    tabInfo.innerHTML = `<a href="${tab.url}" target="_blank">${tab.title}</a>`;
+    const tabLink = document.createElement('a');
+    tabLink.textContent = tab.title;
+    tabLink.href = '#';
+    tabLink.onclick = (e) => {
+      e.preventDefault();
+      chrome.tabs.update(tab.id, { active: true });
+    };
+    tabInfo.appendChild(tabLink);
     tabResult.appendChild(tabInfo);
 
     matches.forEach(result => {
       const resultLine = document.createElement('div');
       resultLine.className = 'result-line';
-      resultLine.innerHTML = `
-        <span class="line-number">Line ${result.line}:</span>
-        <a href="${tab.url}#line-${result.line}" target="_blank">${result.content}</a>
-      `;
+      
+      const link = document.createElement('a');
+      link.href = '#';
+      link.innerHTML = `<span class="line-number">Line ${result.line}:</span>${result.content}`;
+      link.onclick = async (e) => {
+        e.preventDefault();
+        // 切换到对应的标签页
+        await chrome.tabs.update(tab.id, { active: true });
+        // 然后滚动到匹配的位置
+        chrome.scripting.executeScript({
+          target: { tabId: tab.id },
+          func: (lineNumber) => {
+            const anchor = document.getElementById(`line-${lineNumber}`);
+            if (anchor) {
+              anchor.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              // 添加高亮效果
+              anchor.style.backgroundColor = '#ffeb3b';
+              setTimeout(() => {
+                anchor.style.backgroundColor = '';
+              }, 2000);
+            }
+          },
+          args: [result.line]
+        });
+      };
+      
+      resultLine.appendChild(link);
       tabResult.appendChild(resultLine);
     });
 
@@ -159,21 +195,32 @@ class TabSearcher {
   // 执行搜索
   async performSearch() {
     const keyword = this.searchInput.value.trim();
-    if (!keyword) return;
+    if (!keyword) {
+      this.resultsDiv.style.display = 'none';
+      return;
+    }
 
     searchState.setLoading(true);
     this.clearResults();
+    this.resultsDiv.style.display = 'block'; // 显示结果框
 
     try {
       await searchHistory.addToHistory(keyword);
       const tabs = await chrome.tabs.query({});
+      let hasResults = false;
       
       for (const tab of tabs) {
         const matches = await this.searchInTab(tab, keyword);
         if (matches && matches.length > 0) {
+          hasResults = true;
           this.resultsDiv.appendChild(this.createResultElement(tab, matches));
           await this.addAnchorsToTab(tab, matches);
         }
+      }
+
+      // 如果没有搜索结果，显示提示信息
+      if (!hasResults) {
+        this.resultsDiv.innerHTML = '<p style="text-align: center; color: #666;">No results found</p>';
       }
     } catch (e) {
       console.error('Search error:', e);
